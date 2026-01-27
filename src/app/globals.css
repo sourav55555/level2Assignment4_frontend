@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  --radius: 0.625rem;
+
+  /* Base */
+  --background: 24 47 46;
+  --foreground: 230 177 95;
+
+  /* Cards / Popovers */
+  --card: 31 63 59;
+  --card-foreground: 230 177 95;
+  --popover: 31 63 59;
+  --popover-foreground: 230 177 95;
+
+  /* Primary (gold emphasis) */
+  --primary: 230 177 95;
+  --primary-foreground: 24 47 46;
+
+  /* Secondary (muted green surface) */
+  --secondary: 36 74 69;
+  --secondary-foreground: 230 177 95;
+
+  /* Muted */
+  --muted: 43 90 83;
+  --muted-foreground: 207 164 90;
+
+  /* Accent (slightly brighter gold) */
+  --accent: 240 201 122;
+  --accent-foreground: 24 47 46;
+
+  /* Destructive (warm red that fits palette) */
+  --destructive: 196 75 75;
+  --destructive-foreground: 255 245 225;
+
+  /* Borders / Inputs / Focus */
+  --border: 46 95 88;
+  --input: 46 95 88;
+  --ring: 230 177 95;
+
+  /* Charts (gold + teal-friendly spectrum) */
+  --chart-1: 230 177 95;
+  --chart-2: 79 165 154;
+  --chart-3: 59 127 119;
+  --chart-4: 240 201 122;
+  --chart-5: 159 211 199;
+
+  /* Sidebar */
+  --sidebar: 20 41 38;
+  --sidebar-foreground: 230 177 95;
+  --sidebar-primary: 230 177 95;
+  --sidebar-primary-foreground: 24 47 46;
+  --sidebar-accent: 36 74 69;
+  --sidebar-accent-foreground: 230 177 95;
+  --sidebar-border: 46 95 88;
+  --sidebar-ring: 230 177 95;
+}
+
+
+/* element.style {
+    background: #18312e;
+}
+# E6b15f -  text color */
+
+.bg-primary {
+  background-color: #18312e;
+}
+.text-primary{
+  color: #18312e;
+}
+
+.bg-secondary{
+  background-color: #E6b15f;
+}
+.text-secondary{
+  color: #E6b15f;
+}
