@@ -4,12 +4,14 @@ import { MdOutlineFoodBank, MdOutlineRestaurant } from "react-icons/md";
 import cat1 from '@public/homepage/category/cat-01-950x1330.jpg'
 import cat2 from '@public/homepage/category/cat-02-950x1188.jpg'
 import cat3 from '@public/homepage/category/cat-03-950x1188.jpg'
-import discountBg from '@public/homepage/menu-bg-paper.jpg'
+import discount from '@public/homepage/download.jpg'
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "@/components/module/homepage/sectionHeader";
-
-
+import { restaurantDiscounts } from "@/libs/discountData";
+import services from '@public/homepage/services.png'
+import Services from "@/components/module/homepage/services";
+import Footer from "@/components/module/homepage/footer";
 
 export default function Home() {
   return (
@@ -97,15 +99,37 @@ export default function Home() {
                 title="Special Fine Dine"
                 subtitle="Best Bites, Best Prices"
               />
-                <div className=" bg-[url('/homepage/menu-bg-paper.jpg')] bg-cover bg-center bg-no-repeat">
-                  {/* <Image src={discountBg} className="h-full" fill alt="discount bg"/> */}
-                  <div>
-                    this si a tyesxtaq
-                  </div>
+              <div className="rounded-2xl mt-8 bg-[url('/homepage/menu-bg-paper.jpg')] bg-cover bg-center bg-no-repeat">
+                <p className="text-center text-secondary tracking-widest text-lg font-medium uppercase pt-8">Discounts</p>
+                {/* <Image src={discountBg} className="h-full" fill alt="discount bg"/> */}
+                <div className="grid grid-cols-2 gap-10 p-16 pt-8">
+                    {
+                      restaurantDiscounts.map(item =>
+                        <div
+                          key={item.restaurantName}
+                          className="flex gap-6 max-w-md mx-auto"
+                        >
+                          <Image src={discount} className="size-20 object-cover rounded-full" alt={item.restaurantName} />
+                          <div className="mt-1">
+                            <p className="w-full flex uppercase tracking-wider items-center justify-between">{item.restaurantName} 
+                              <span className="text-secondary text-lg font-medium inline-block ms-auto">.............{item.discountPercent}%</span>
+                            </p>
+                            <p className="text-sm mt-2 text-[#a7a7a7]">{ item.description}</p>
+                          </div>
+                        </div>
+                      )
+                      }
+                    </div>
+          
                 </div>
               </div>
-            </div>
-
+          </div>
+          
+          {/* services  */}
+          <Services />
+          
+          {/* footer  */}
+          <Footer/>
         </div>
       </main>
     </div>

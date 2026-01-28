@@ -15,7 +15,7 @@ const SectionHeader = (
                 { title }
             <MdOutlineRestaurant />
             </h3>
-            <p className="text-5xl mx-auto text-center mt-3">{subtitle}</p>
+            <p className="text-5xl mx-auto max-w-116 text-center mt-3">{subtitle}</p>
     </div>
     );
 };
