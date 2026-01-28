@@ -1,12 +1,20 @@
 import BgSlider from "@/components/module/homepage/bgSlider";
-import { MdOutlineRestaurant } from "react-icons/md";
-import { RiRestaurant2Line } from "react-icons/ri";
+import { MdOutlineFoodBank, MdOutlineRestaurant } from "react-icons/md";
+
+import cat1 from '@public/homepage/category/cat-01-950x1330.jpg'
+import cat2 from '@public/homepage/category/cat-02-950x1188.jpg'
+import cat3 from '@public/homepage/category/cat-03-950x1188.jpg'
+import discountBg from '@public/homepage/menu-bg-paper.jpg'
+import Image from "next/image";
+import Link from "next/link";
+import SectionHeader from "@/components/module/homepage/sectionHeader";
+
 
 
 export default function Home() {
   return (
     <div>
-      <main className="bg-primary">
+      <main className="bg-primary text-white">
         {/* banner section  */}
         <div>
           <div className="h-auto relative">
@@ -21,13 +29,82 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="py-16">
-            <h3 className="text-secondary uppercase text-sm flex items-center justify-center gap-3 font-semibold">
-              <MdOutlineRestaurant />
-              Our Special Dine
-              <MdOutlineRestaurant />
-            </h3>
+
+          {/* category section  */}
+          <div className="py-20 mx-auto px-4 max-w-328">
+            <SectionHeader title="Our Special Dine" subtitle="Favorite Selections"/>
+            <div className="grid grid-cols-3 gap-20 mt-12">
+              <div>
+                <Link href="/" className="relative">
+                  <span className="bg-secondary absolute z-10 top-2 right-2 size-18 rounded-full flex items-center justify-center">
+                    <MdOutlineFoodBank size={50} className="text-black" />
+                  </span>
+                  <div className=" group overflow-hidden rounded-t-full">
+                     
+                      <Image src={cat1} className="h-100 ease-in-out group-hover:scale-105  transition-all duration-300 object-cover rounded-t-full" alt="Appetizers" />
+                    </div>
+                  </Link>
+                <Link href="/" className="text-center mt-4 space-y-3 px-8 block">
+                  <p className="text-3xl mt-6">Starters</p>
+                  <p className="text-sm leading-6">Small bites, big flavors — the perfect beginning to your dining experience</p>
+                  <p className="uppercase text-secondary hover:border-b border-amber-400 text-xs font-medium transition-all duration-300 w-fit mx-auto py-1.5 px-1.5">View Menu</p>
+                </Link>
+              </div>
+              <div>
+                <Link href="/" className="relative">
+                  <span className="bg-secondary absolute z-10 top-2 right-2 size-18 rounded-full flex items-center justify-center">
+                    <MdOutlineFoodBank size={50} className="text-black" />
+                  </span>
+                  <div className=" group overflow-hidden rounded-t-full">
+                     
+                      <Image src={cat2} className="h-100 ease-in-out group-hover:scale-105  transition-all duration-300 object-cover rounded-t-full" alt="Appetizers" />
+                    </div>
+                </Link>
+                <Link href="/" className="text-center mt-4 space-y-3 px-8 block">
+                  <p className="text-3xl mt-6">Main Dishes</p>
+                  <p className="text-sm leading-6">Bold flavors and masterful creations for a truly unforgettable main course</p>
+                  <p className="uppercase text-secondary hover:border-b border-amber-400 text-xs font-medium transition-all duration-300 w-fit mx-auto py-1.5 px-1.5">View Menu</p>
+                </Link>
+         
+              </div>
+              <div>
+                <Link href="/" className="relative">
+                  <span className="bg-secondary absolute z-10 top-2 right-2 size-18 rounded-full flex items-center justify-center">
+                    <MdOutlineFoodBank size={50} className="text-black" />
+                  </span>
+                  <div className=" group overflow-hidden rounded-t-full">
+                     
+                      <Image src={cat3} className="h-100 ease-in-out group-hover:scale-105  transition-all duration-300 object-cover rounded-t-full" alt="Appetizers" />
+                    </div>
+                </Link>
+                <Link href="/" className="text-center mt-4 space-y-3 px-8 block">
+                  <p className="text-3xl mt-6">Desserts</p>
+                  <p className="text-sm leading-6">End your meal on a sweet note with irresistible dessert creations</p>
+                  <p className="uppercase text-secondary hover:border-b border-amber-400 text-xs font-medium transition-all duration-300 w-fit mx-auto py-1.5 px-1.5">View Menu</p>
+                </Link>
+     
+              </div>
+       
+          
+            </div>
           </div>
+
+          {/* discount section  */}
+
+          <div className=" bg-primary2">
+            <div className="py-20 mx-auto px-4 max-w-300">
+              <SectionHeader
+                title="Special Fine Dine"
+                subtitle="Best Bites, Best Prices"
+              />
+                <div className=" bg-[url('/homepage/menu-bg-paper.jpg')] bg-cover bg-center bg-no-repeat">
+                  {/* <Image src={discountBg} className="h-full" fill alt="discount bg"/> */}
+                  <div>
+                    this si a tyesxtaq
+                  </div>
+                </div>
+              </div>
+            </div>
 
         </div>
       </main>

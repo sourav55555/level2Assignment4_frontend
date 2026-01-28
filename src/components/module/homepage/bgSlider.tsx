@@ -22,7 +22,7 @@ export default function BgSlider() {
         spaceBetween={30}
         effect={'fade'}
         autoplay={{
-          delay: 4500,
+          delay: 3500,
           disableOnInteraction: false,
         }}
         modules={[EffectFade, Autoplay]}
