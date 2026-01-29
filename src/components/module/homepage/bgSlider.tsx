@@ -28,20 +28,20 @@ export default function BgSlider() {
         modules={[EffectFade, Autoplay]}
         className="mySwiper"
       >
-        <SwiperSlide className='max-h-[calc(100vh-5rem)]' >
-          <Image src={slide1} unoptimized priority className='object-cover h-[calc(100vh-5rem)]' alt='bg slide' />
+        <SwiperSlide  >
+          <Image src={slide1} unoptimized priority className='object-cover h-[40rem] md:h-[calc(100vh-5rem)]' alt='bg slide' />
           {/* <img src="https://swiperjs.com/demos/images/nature-1.jpg" /> */}
         </SwiperSlide>
-        <SwiperSlide className='max-h-[calc(100vh-5rem)]'>
-          <Image src={slide2} unoptimized priority className='object-cover h-[calc(100vh-5rem)]' alt='bg slide' />
+        <SwiperSlide >
+          <Image src={slide2} unoptimized priority className='object-cover h-160 md:h-[calc(100vh-5rem)]' alt='bg slide' />
           {/* <img src="https://swiperjs.com/demos/images/nature-1.jpg" /> */}
         </SwiperSlide>
-        <SwiperSlide className='max-h-[calc(100vh-5rem)]'>
-          <Image src={slide3} unoptimized priority className='object-cover h-[calc(100vh-5rem)]' alt='bg slide' />
+        <SwiperSlide >
+          <Image src={slide3} unoptimized priority className='object-cover h-160 md:h-[calc(100vh-5rem)]' alt='bg slide' />
           {/* <img src="https://swiperjs.com/demos/images/nature-1.jpg" /> */}
         </SwiperSlide>
-        <SwiperSlide className='max-h-[calc(100vh-5rem)]'>
-          <Image src={slide4} unoptimized priority className='object-cover h-[calc(100vh-5rem)]' alt='bg slide' />
+        <SwiperSlide >
+          <Image src={slide4} unoptimized priority className='object-cover h-160 md:h-[calc(100vh-5rem)]' alt='bg slide' />
           {/* <img src="https://swiperjs.com/demos/images/nature-1.jpg" /> */}
         </SwiperSlide>
 

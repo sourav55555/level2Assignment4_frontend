@@ -8,7 +8,7 @@ const Footer = () => {
     return (
         <div className="pt-16 pb-6 mx-auto px-4 border-t border-amber-400 max-w-300">
             <Image src={logo} className='h-auto mx-auto w-52' alt='logo' />
-            <div className='mt-8 flex justify-around gap-6 pb-8'>
+            <div className='mt-8 flex flex-col md:flex-row justify-around gap-8 md:gap-6 pb-8'>
                 <div className='max-w-72'>
                     <p className='text-justify'>FoodHub is your go-to platform for delicious meals and seamless ordering. Browse menus from a variety of local restaurants, place your order in just a few clicks, and enjoy fresh food delivered straight to your door. Whether it’s a quick lunch, a family dinner, or catering for a special event, FoodHub makes every meal easy, convenient, and enjoyable.</p>
                 </div>
