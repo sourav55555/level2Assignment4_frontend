@@ -269,9 +269,7 @@ export default function CreateMealForm() {
                             </SelectItem>
                           ))
                         }
-                        {/* <SelectItem>Select</SelectItem> */}
-                        {/* <SelectItem value={DietPreference.VEG}>Vegetarian</SelectItem>
-                        <SelectItem value={DietPreference.VEGAN}>Vegan</SelectItem> */}
+                
                       </SelectContent>
                     </Select>
                   )}

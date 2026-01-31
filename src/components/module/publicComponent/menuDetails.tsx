@@ -11,6 +11,8 @@ import { MenuItem } from '@/lib/types';
 import { getLocalUserData } from '@/libs/localStorage';
 import { MdDeleteOutline } from 'react-icons/md';
 import { RiEdit2Fill } from 'react-icons/ri';
+import DeleteAlertItem from './deleteAlertItem';
+import { UserRole } from '@/libs/constants';
 
 // This would come from your API/database based on the meal ID
 const getMealById = (id: string) => {
@@ -106,7 +108,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Meal Not Found</h1>
           <p className="text-gray-600 mb-4">The meal you&apos;re looking for doesn&apos;t exist.</p>
-          <Link href="/menu">
+          <Link href={user && user?.role === UserRole.provider ? "/provider/menu" : "/menu"}>
             <Button>Back to Menu</Button>
           </Link>
         </div>
@@ -250,7 +252,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
                     key={index}
                     className="flex items-center gap-2 text-sm text-gray-700"
                   >
-                    <div className="w-1.5 h-1.5 bg-orange-600 rounded-full" />
+                    <div className="w-1.5 h-1.5 bg-orange-600 capitalize rounded-full" />
                     {ingredient}
                   </div>
                 ))}
@@ -265,9 +267,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
               <Button className='bg-secondary w-1/2 h-12 hover:bg-amber-300 transition-all duration-300'>
                 <RiEdit2Fill size={14} /> Edit
               </Button>
-              <Button className='bg-red-700 w-1/2 h-12 text-white hover:bg-red-900 transition-all duration-300'>
-                <MdDeleteOutline size={14} /> Delete
-              </Button>
+              <DeleteAlertItem id={ meal.id} />
             </div>
 
             {/* Quantity and Add to Cart */}
