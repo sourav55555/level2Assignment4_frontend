@@ -2,6 +2,7 @@
 'use server';
 
 
+import { MenuItem } from "@/lib/types";
 import { providerMeals, providerService } from "@/services/provider.service";
 
 export type BlogData = {
@@ -15,8 +16,12 @@ export type BlogData = {
 
 export const createMealReq = async (data: any) => {
      const response = await providerService.createProvider(data);
-    // updateTag("blogPosts")
-    console.log(response)
+
+    return response
+}
+export const updateMealReq = async (data: any, id: string) => {
+     const response = await providerService.updateProviderMeal(data, id);
+
     return response
 }
 

@@ -13,6 +13,7 @@ import { MdDeleteOutline } from 'react-icons/md';
 import { RiEdit2Fill } from 'react-icons/ri';
 import DeleteAlertItem from './deleteAlertItem';
 import { UserRole } from '@/libs/constants';
+import { UpdateMealDrawer } from '../authComponent/updateMealDrawer';
 
 // This would come from your API/database based on the meal ID
 const getMealById = (id: string) => {
@@ -90,9 +91,7 @@ const relatedMeals = [
   },
 ];
 
-interface MealDetailsPageProps {
-  mealId: string;
-}
+
 
 export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
   // const meal = getMealById('1');
@@ -264,9 +263,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
             <Separator className="my-1" />
             {/* update edit  */}
             <div className='flex items-center gap-3'>
-              <Button className='bg-secondary w-1/2 h-12 hover:bg-amber-300 transition-all duration-300'>
-                <RiEdit2Fill size={14} /> Edit
-              </Button>
+              <UpdateMealDrawer mealData={ meal } />
               <DeleteAlertItem id={ meal.id} />
             </div>
 

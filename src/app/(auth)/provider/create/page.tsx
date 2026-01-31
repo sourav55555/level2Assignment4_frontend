@@ -75,7 +75,7 @@ export default function CreateMealForm() {
 
   const handleSubmit = async (values: CreateMealFormValues) => {
     try {
-      console.log(values);
+
       const data = {
         ...values,
         price: Number(values.price)
@@ -86,7 +86,7 @@ export default function CreateMealForm() {
         toast.success("Meal created successfully");
         router.push("/provider/menu")
       }
-      console.log(res, "ressss")
+
     } catch (error: any) {
       toast.error(error?.message || "Failed to create meal");
     }

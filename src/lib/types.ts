@@ -19,6 +19,7 @@ export type CategoryType = {
 // Option 1: Simple and clean interface (most common)
 export interface MenuItem {
   cuisine: CategoryType;
+  cuisineId: string;
   description: string;
   dietPreference: string; // or just string if not strict
   id: string; // UUID format
@@ -27,6 +28,7 @@ export interface MenuItem {
   name: string;
   price: number;
   provider: CategoryType;
+  providerId: string;
   status: string; // adjust as needed
   tags: string; // comma-separated string
 }
