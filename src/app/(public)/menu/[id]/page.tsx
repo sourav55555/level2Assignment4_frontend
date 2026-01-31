@@ -1,8 +1,15 @@
 import React from 'react'
-import MenuDetails from './menuDetails'
 
-export default function page() {
+import { getMealWithId } from '@/actions/meal.acton';
+import MealDetailsPage from '../../../../components/module/publicComponent/menuDetails';
+import { MenuItem } from '@/lib/types';
+
+export default async function ProviderMeal({ params }: { params: { id: string } }) {
+  const { id } = await params;
+
+  const meal = await getMealWithId(id);
+  console.log(meal)
   return (
-    <MenuDetails/>
+    <MealDetailsPage meal={meal.data} />
   )
 }

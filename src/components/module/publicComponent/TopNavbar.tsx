@@ -30,7 +30,7 @@ export default function TopNavbar() {
   ]
 
   const isActive = (itemLink: string) => {
-    console.log(pathName, itemLink)
+
     if (pathName === "/" && itemLink === "/") {
       return true
     }
@@ -76,9 +76,9 @@ export default function TopNavbar() {
         >
           <RiMenu3Fill className='size-6.5' size={28} />
         </Button>
-        <Link href="/login" className='hidden md:inline-block'>
+        <Link href="/login" className='hidden md:inline-block cursor-pointer'>
           <Button
-            className='bg-secondary rounded-3xl w-28'><IoIosLogIn className='me-0.5' />
+            className='bg-secondary rounded-3xl w-28 cursor-pointer'><IoIosLogIn className='me-0.5' />
             Login
           </Button>
         </Link>

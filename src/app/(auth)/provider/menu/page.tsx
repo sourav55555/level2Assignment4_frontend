@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Star, Clock, MapPin, Search, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,11 @@ import {
 } from '@/components/ui/sheet';
 import { FilterContent } from '@/components/module/menupage/filterMenu';
 import ItemCard from '@/components/module/publicComponent/itemCard';
+import { getLocalUserData } from '@/libs/localStorage';
+import { FaPlus } from "react-icons/fa6";
+import Link from 'next/link';
+import { getProviderMeal } from '@/actions/provider.action';
+import { MenuItem } from '@/lib/types';
 
 // Sample food data
 export const foodItems = [
@@ -137,6 +142,19 @@ export default function MenuPage() {
         priceRange: [0, 20],
         vegetarianOnly: false
     })
+  const [allData, setAllData] = useState<MenuItem[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  
+  useEffect(() => {
+    const meals = async () => {
+      // setLoading(true)
+      const data = await getProviderMeal();
+      console.log(data.data)
+      setAllData(data.data.data)
+      setLoading(false)
+    }
+    meals();
+  },[])
 
 
 
@@ -152,7 +170,9 @@ export default function MenuPage() {
 
 //     // return matchesSearch && matchesCategory && matchesCuisine && matchesPrice && matchesVegetarian && matchesRating;
     //   });
-    const filteredFood = foodItems;
+  const filteredFood = foodItems;
+  
+  const user = getLocalUserData();
 
 
 
@@ -162,7 +182,7 @@ export default function MenuPage() {
       <div className=" bg-[url('/intro-bg.jpg')] bg-no-repeat bg-cover bg-center h-28 md:h-40  border-b sticky top-0 z-10">
         <div className="bg-black/50 flex items-center justify-center w-full h-full  px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
           <div className="flex items-center gap-4 justify-between ">
-            <h1 className="text-2xl sm:text-4xl font-semibold text-secondary">Today&apos;s Top Menu</h1>
+            <h1 className="text-2xl sm:text-4xl font-semibold text-secondary">{ user?.name}</h1>
             
             {/* Mobile Filter Button */}
             <Sheet>
@@ -179,7 +199,10 @@ export default function MenuPage() {
                   {/* Search in Mobile Sidebar */}
                   <div className="mb-6">
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                      <Search
+                        className="absolute left-3 top-1/2 transform
+                         -translate-y-1/2 text-gray-400 w-5 h-5"
+                      />
                       <Input
                         type="text"
                         placeholder="Search food or restaurant..."
@@ -207,7 +230,9 @@ export default function MenuPage() {
               {/* Search in Sidebar */}
               <div className="mb-6">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Search
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+                  />
                   <Input
                     type="text"
                     placeholder="Search food or restaurant..."
@@ -227,18 +252,34 @@ export default function MenuPage() {
 
           {/* Food Cards Grid */}
           <main className="flex-1">
-            <div className="mb-4 text-sm sm:text-base text-gray-100">
-              {filteredFood.length} {filteredFood.length === 1 ? 'item' : 'items'} found
+            <div className='flex items-center justify-between mb-7'>
+              <div className="mb-4 text-sm sm:text-base text-gray-100">
+                {filteredFood.length} {filteredFood.length === 1 ? 'item' : 'items'} found
+              </div>
+              <Link href="/provider/create">
+                  <Button
+                    className='bg-green-400 px-6 hover:bg-green-700 
+                    hover:text-white transition-all duration-300 font-medium'
+                    >
+                    <FaPlus />
+                    Add A New Item
+                  </Button>
+              </Link>
             </div>
+            {
+              loading && <p className='text-secondary text-center my-10'>Loading .....</p>
+            }
             
-            {filteredFood.length === 0 ? (
+            {allData.length === 0 && !loading ? (
               <div className="bg-white rounded-lg shadow-sm p-8 sm:p-12 text-center">
-                <p className="text-gray-500 text-base sm:text-lg">No items found. Try adjusting your filters.</p>
+                <p className="text-gray-500 text-base sm:text-lg">
+                  No items found. Try adjusting your filters.
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:px-0 px-6 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-                {filteredFood.map(item => (
-                  <ItemCard key={item.id} item={item}/>
+                {allData.map(item => (
+                  <ItemCard key={item.id} item={item} update/>
                 ))}
               </div>
             )}

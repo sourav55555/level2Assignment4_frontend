@@ -7,6 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import Image from 'next/image';
+import { MenuItem } from '@/lib/types';
+import { getLocalUserData } from '@/libs/localStorage';
+import { MdDeleteOutline } from 'react-icons/md';
+import { RiEdit2Fill } from 'react-icons/ri';
 
 // This would come from your API/database based on the meal ID
 const getMealById = (id: string) => {
@@ -88,12 +92,13 @@ interface MealDetailsPageProps {
   mealId: string;
 }
 
-export default function MealDetailsPage() {
-  const meal = getMealById('1');
+export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
+  // const meal = getMealById('1');
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
+  const user = getLocalUserData();
 
   if (!meal) {
     return (
@@ -110,11 +115,11 @@ export default function MealDetailsPage() {
   }
 
   const calculateTotalPrice = () => {
-    let total = meal.price * quantity;
-    meal.customizations?.forEach(custom => {
-      const selectedIndex = selectedOptions[custom.id] || 0;
-      total += custom.prices[selectedIndex] * quantity;
-    });
+    const total = meal.price * quantity;
+    // meal.customizations?.forEach(custom => {
+    //   const selectedIndex = selectedOptions[custom.id] || 0;
+    //   total += custom.prices[selectedIndex] * quantity;
+    // });
     return total.toFixed(2);
   };
 
@@ -157,7 +162,7 @@ export default function MealDetailsPage() {
           <div className="space-y-4">
             <div className="relative rounded-2xl overflow-hidden bg-white shadow-lg aspect-[4/3]">
               <Image
-                src={meal.images[selectedImage]}
+                src={meal.imageUrl}
                 alt={meal.name}
                 width={600}
                 height={600}
@@ -168,14 +173,13 @@ export default function MealDetailsPage() {
                 className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform"
               >
                 <Heart
-                  className={`w-6 h-6 ${
-                    isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
-                  }`}
+                  className={`w-6 h-6 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'
+                    }`}
                 />
               </button>
-              {meal.vegetarian && (
+              {meal.dietPreference && (
                 <Badge className="absolute top-4 left-4 bg-green-500 text-white">
-                  Vegetarian
+                  {meal.dietPreference}
                 </Badge>
               )}
             </div>
@@ -191,39 +195,39 @@ export default function MealDetailsPage() {
                     {meal.name}
                   </h1>
                   <Link
-                    href={`/restaurant/${meal.restaurant}`}
+                    href={`/restaurant/${meal.provider?.id}`}
                     className="text-orange-600 hover:text-orange-700 font-medium"
                   >
-                    {meal.restaurant}
+                    {meal.provider?.name}
                   </Link>
                 </div>
                 <div className="text-right">
                   <div className="text-3xl font-bold text-orange-600">
-                    ${meal.price}
+                    ৳ {meal.price}
                   </div>
                   <div className="text-sm text-gray-500">per item</div>
                 </div>
               </div>
 
               <div className="flex items-center flex-wrap gap-4 text-sm text-gray-600 mt-4">
-                <div className="flex items-center gap-1">
+                {/* <div className="flex items-center gap-1">
                   <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   <span className="font-semibold">{meal.rating}</span>
-                  <span>({meal.reviews} reviews)</span>
-                </div>
+                  <span>({meal.} reviews)</span>
+                </div> */}
                 <div className="flex items-center gap-1">
                   <Clock className="w-5 h-5" />
-                  <span>{meal.deliveryTime} min</span>
+                  <span>15 min</span>
                 </div>
-                <div className="flex items-center gap-1">
+                {/* <div className="flex items-center gap-1">
                   <MapPin className="w-5 h-5" />
                   <span>{meal.distance}</span>
-                </div>
+                </div> */}
               </div>
 
               <div className="flex gap-2 mt-4">
-                <Badge variant="secondary">{meal.category}</Badge>
-                <Badge variant="secondary">{meal.cuisine}</Badge>
+                <Badge variant="secondary">{meal.cuisine?.name}</Badge>
+                <Badge variant="secondary">{meal.dietPreference}</Badge>
               </div>
             </div>
 
@@ -241,7 +245,7 @@ export default function MealDetailsPage() {
             <div className="mb-6">
               <h3 className="font-semibold text-lg mb-3">Ingredients</h3>
               <div className="grid grid-cols-2 gap-2">
-                {meal.ingredients.map((ingredient, index) => (
+                {meal.ingredient?.split(",").map((ingredient, index) => (
                   <div
                     key={index}
                     className="flex items-center gap-2 text-sm text-gray-700"
@@ -256,37 +260,53 @@ export default function MealDetailsPage() {
 
 
             <Separator className="my-1" />
-
-            {/* Quantity and Add to Cart */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-lg">Quantity</span>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => handleQuantityChange('decrease')}
-                    disabled={quantity === 1}
-                    className="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-orange-600 hover:text-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="text-xl font-bold w-12 text-center">{quantity}</span>
-                  <button
-                    onClick={() => handleQuantityChange('increase')}
-                    className="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-orange-600 hover:text-orange-600 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <Button
-                onClick={handleAddToCart}
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white h-14 text-lg font-semibold"
-              >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Add to Cart - ${calculateTotalPrice()}
+            {/* update edit  */}
+            <div className='flex items-center gap-3'>
+              <Button className='bg-secondary w-1/2 h-12 hover:bg-amber-300 transition-all duration-300'>
+                <RiEdit2Fill size={14} /> Edit
+              </Button>
+              <Button className='bg-red-700 w-1/2 h-12 text-white hover:bg-red-900 transition-all duration-300'>
+                <MdDeleteOutline size={14} /> Delete
               </Button>
             </div>
+
+            {/* Quantity and Add to Cart */}
+            {!user || user.id !== meal.provider?.id &&
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-lg">Quantity</span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => handleQuantityChange('decrease')}
+                      disabled={quantity === 1}
+                      className="w-10 h-10 rounded-full border-2
+                       border-gray-300 flex items-center justify-center
+                        hover:border-orange-600 hover:text-orange-600
+                         disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="text-xl font-bold w-12 text-center">{quantity}</span>
+                    <button
+                      onClick={() => handleQuantityChange('increase')}
+                      className="w-10 h-10 rounded-full border-2 
+                      border-gray-300 flex items-center justify-center
+                       hover:border-orange-600 hover:text-orange-600 transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={handleAddToCart}
+                  className="w-full bg-orange-600 hover:bg-orange-700
+                   text-white h-14 text-lg font-semibold"
+                >
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  Add to Cart - ${calculateTotalPrice()}
+                </Button>
+              </div>}
           </div>
         </div>
 
@@ -298,12 +318,15 @@ export default function MealDetailsPage() {
               <Link
                 key={relatedMeal.id}
                 href={`/meal/${relatedMeal.id}`}
-                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg shadow-sm 
+                overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="relative h-48">
-                  <img
+                  <Image
                     src={relatedMeal.image}
                     alt={relatedMeal.name}
+                    width={300}
+                    height={300}
                     className="w-full h-full object-cover"
                   />
                 </div>
