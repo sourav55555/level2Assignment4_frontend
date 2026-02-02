@@ -21,113 +21,6 @@ import { getProviderMeal } from '@/actions/provider.action';
 import { MenuItem } from '@/lib/types';
 
 // Sample food data
-export const foodItems = [
-  {
-    id: 1,
-    name: 'Margherita Pizza',
-    restaurant: 'Pizza Palace',
-    category: 'Pizza',
-    cuisine: 'Italian',
-    price: 12.99,
-    rating: 4.5,
-    deliveryTime: '25-35',
-    distance: '2.3 km',
-    image: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400&h=300&fit=crop',
-    vegetarian: true,
-  },
-  {
-    id: 2,
-    name: 'Chicken Burger',
-    restaurant: 'Burger House',
-    category: 'Burger',
-    cuisine: 'American',
-    price: 8.99,
-    rating: 4.3,
-    deliveryTime: '20-30',
-    distance: '1.8 km',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
-    vegetarian: false,
-  },
-  {
-    id: 3,
-    name: 'Pad Thai',
-    restaurant: 'Thai Delight',
-    category: 'Noodles',
-    cuisine: 'Thai',
-    price: 10.99,
-    rating: 4.7,
-    deliveryTime: '30-40',
-    distance: '3.1 km',
-    image: 'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=400&h=300&fit=crop',
-    vegetarian: false,
-  },
-  {
-    id: 4,
-    name: 'Caesar Salad',
-    restaurant: 'Green Bowl',
-    category: 'Salad',
-    cuisine: 'Continental',
-    price: 7.99,
-    rating: 4.2,
-    deliveryTime: '15-25',
-    distance: '1.2 km',
-    image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop',
-    vegetarian: true,
-  },
-  {
-    id: 5,
-    name: 'Sushi Platter',
-    restaurant: 'Tokyo Sushi',
-    category: 'Sushi',
-    cuisine: 'Japanese',
-    price: 18.99,
-    rating: 4.8,
-    deliveryTime: '35-45',
-    distance: '4.5 km',
-    image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop',
-    vegetarian: false,
-  },
-  {
-    id: 6,
-    name: 'Veggie Wrap',
-    restaurant: 'Wrap & Roll',
-    category: 'Wrap',
-    cuisine: 'Mediterranean',
-    price: 6.99,
-    rating: 4.1,
-    deliveryTime: '15-20',
-    distance: '1.5 km',
-    image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop',
-    vegetarian: true,
-  },
-  {
-    id: 7,
-    name: 'Pepperoni Pizza',
-    restaurant: 'Pizza Palace',
-    category: 'Pizza',
-    cuisine: 'Italian',
-    price: 14.99,
-    rating: 4.6,
-    deliveryTime: '25-35',
-    distance: '2.3 km',
-    image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&h=300&fit=crop',
-    vegetarian: false,
-  },
-  {
-    id: 8,
-    name: 'Vegan Bowl',
-    restaurant: 'Green Bowl',
-    category: 'Bowl',
-    cuisine: 'Healthy',
-    price: 9.99,
-    rating: 4.4,
-    deliveryTime: '20-30',
-    distance: '1.2 km',
-    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop',
-    vegetarian: true,
-  },
-];
-
 
 
 export default function MenuPage() {
@@ -170,7 +63,7 @@ export default function MenuPage() {
 
 //     // return matchesSearch && matchesCategory && matchesCuisine && matchesPrice && matchesVegetarian && matchesRating;
     //   });
-  const filteredFood = foodItems;
+
   
   const user = getLocalUserData();
 
@@ -254,7 +147,7 @@ export default function MenuPage() {
           <main className="flex-1">
             <div className='flex items-center justify-between mb-7'>
               <div className="mb-4 text-sm sm:text-base text-gray-100">
-                {filteredFood.length} {filteredFood.length === 1 ? 'item' : 'items'} found
+                {allData.length} {allData.length === 1 ? 'item' : 'items'} found
               </div>
               <Link href="/provider/create">
                   <Button

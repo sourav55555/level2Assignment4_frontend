@@ -10,7 +10,7 @@ import React from 'react'
 import { MdDelete, MdDeleteOutline } from 'react-icons/md';
 import { RiEdit2Fill } from 'react-icons/ri';
 
-export default function ItemCard({item, update}: {item: MenuItem; update:boolean}) {
+export default function ItemCard({item, update}: {item: MenuItem; update?:boolean}) {
     
   return (
       <div className="bg-primary2 text-white rounded-lg 
@@ -28,40 +28,32 @@ export default function ItemCard({item, update}: {item: MenuItem; update:boolean
                 Veg
             </span>
               )} */}
-            {
-                  update && <div className='absolute top-0 left-0 flex gap-1.5'>
-                      <Button className='bg-amber-400 text-black p-1'><RiEdit2Fill size={14} /></Button>
-                      <Button className='bg-red-700  p-1'><MdDeleteOutline size={14} /></Button>
-                </div>
-            }
+=
         </div>
         <div className="p-3 sm:p-4">
             <div className="flex justify-between items-start mb-2">
             <h3 className="font-semibold text-base sm:text-lg ">{item.name}</h3>
             <span className="font-bold  text-sm sm:text-base">${item.price}</span>
             </div>
-            <p className="text-xs sm:text-sm  mb-2 sm:mb-3">{item.provider.name}</p>
-            {/* <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm ">
-                <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
-                    <span>{item.rating}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                    <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span>{item.deliveryTime} min</span>
-                </div>
-                <div className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span>{item.distance}</span>
-                </div>
-            </div> */}
-            <div className="mt-2 sm:mt-3 flex text-black gap-2">
-                  <span
-                      className="text-xs bg-gray-100 px-2 py-0.5 rounded capitalize"
-                  >
-                      {item.cuisine.name}
-                  </span>
+            <p className="text-xs sm:text-sm  mb-2 sm:mb-3">{item.provider?.name}</p>
+       
+            <div className='mt-2 sm:mt-3 flex gap-2'>
+                <div className=" flex text-black gap-2">
+                    <span
+                        className="text-xs bg-gray-100 px-2 py-0.5 rounded capitalize"
+                    >
+                        {item.cuisine?.name}
+                    </span>
                 
+                </div>
+                <div className=" flex text-black gap-2">
+                    <span
+                        className="text-xs bg-gray-100 px-2 py-0.5 rounded capitalize"
+                    >
+                        {item.dietPreference}
+                    </span>
+                
+                  </div>
             </div>
             <Link href={update ? `/provider/menu/${item.id}`  : `/menu/${item.id}`} className='group'>
                 <Button className="w-full mt-3 sm:mt-4 bg-secondary text-black group-hover:bg-orange-700 transition-all cursor-pointer duration-300 text-sm sm:text-base" onClick={()=> console.log("click")}>

@@ -36,7 +36,7 @@ const signupSchema = z.object({
     .min(11, "Invalid phone number"),
   password: z
     .string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
     .min(1, "Password is required"),
   role: z.string(),
 });
@@ -65,7 +65,11 @@ export default function SignupPage() {
       setLocalUserData(data.user)
       if (values.role === UserRole.provider) {
     
-        router.push("/provider/create")
+        router.push("/provider/dashboard")
+      } else if (values.role === UserRole.user) {
+        router.push("/menu")
+      } else if (values.role === UserRole.admin) {
+        router.push("/admin/dashboard")
       }
 
     } else {

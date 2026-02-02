@@ -47,7 +47,7 @@ const initialCartItems = [
   },
 ];
 
-export default function CartPage() {
+export default function CartPage({data}:{data: any}) {
   const [cartItems, setCartItems] = useState(initialCartItems);
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number } | null>(null);
@@ -69,28 +69,8 @@ export default function CartPage() {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
-  const applyPromoCode = () => {
-    // Mock promo code validation
-    const validPromos: Record<string, number> = {
-      'SAVE10': 10,
-      'SAVE20': 20,
-      'FIRST50': 50,
-    };
 
-    if (validPromos[promoCode.toUpperCase()]) {
-      setAppliedPromo({
-        code: promoCode.toUpperCase(),
-        discount: validPromos[promoCode.toUpperCase()],
-      });
-      setPromoCode('');
-    } else {
-      alert('Invalid promo code');
-    }
-  };
 
-  const removePromoCode = () => {
-    setAppliedPromo(null);
-  };
 
   const calculateItemTotal = (item: typeof cartItems[0]) => {
     const customizationTotal = item.customizations.reduce((sum, custom) => sum + custom.price, 0);
@@ -138,7 +118,7 @@ export default function CartPage() {
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Cart is Empty</h2>
             <p className="text-gray-600 mb-8">
-              Looks like you haven't added any items to your cart yet.
+              Looks like you haven&apos;t added any items to your cart yet.
             </p>
             <Link href="/menu">
               <Button className="bg-orange-600 hover:bg-orange-700">
@@ -175,7 +155,7 @@ export default function CartPage() {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {/* Delivery Address */}
-            <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-4 sm:p-6">
+            {/* <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-4 sm:p-6">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
                 <div className="flex-1">
@@ -186,7 +166,7 @@ export default function CartPage() {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Cart Items List */}
             <div className="bg-primary2 rounded-lg sm:rounded-xl shadow-sm divide-y">

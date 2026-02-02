@@ -1,12 +1,17 @@
 import React from 'react';
 import MenuPage from './menuPage';
+import { Env } from '@/env';
+export const revalidate = 0;
 
-const page = () => {
+const Menu = async () => {
+    const data = await fetch(`${Env.BASE_URL}/meals`);
+    const response = await data.json();
+    console.log(response);
     return (
         <div>
-            <MenuPage/>
+            <MenuPage data={ response.data} />
         </div>
     );
 };
 
-export default page;
+export default Menu;

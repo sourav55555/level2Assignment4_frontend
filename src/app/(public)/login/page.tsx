@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
@@ -15,6 +16,8 @@ import { IoLogoGoogle } from "react-icons/io";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { setLocalUserData } from "@/libs/localStorage";
+import { UserRole } from "@/libs/constants";
+import { useRouter } from "next/navigation";
 
 // Zod validation schema
 const loginSchema = z.object({
@@ -28,6 +31,9 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+
+  const router = useRouter();
+
   const initialValues: LoginFormValues = {
     email: "",
     password: "",
@@ -36,15 +42,23 @@ export default function LoginPage() {
   const handleSubmit = async (values: LoginFormValues) => {
     console.log("Login submitted:", values);
     // Add your login logic here
-    const { data, error } = await authClient.signIn.email(values)
-      console.log(data, error, "ress")
-        if (data) {
-          toast.success("Login Successful!")
-          setLocalUserData(data.user)
-        } else {
-          toast.error(error.message || "Login failed!")
-        }
-      };
+    const { data, error } = await authClient.signIn.email(values);
+    console.log(data, error, "ress");
+    if (data) {
+      toast.success("Login Successful!");
+      setLocalUserData(data.user);
+      const userRole = (data.user as any).role;
+      if (userRole === UserRole.user) {
+        router.push("/menu");
+      } else if (userRole === UserRole.provider) {
+        router.push("/provider/dashboard");
+      } else if (userRole === UserRole.admin) {
+        router.push("/admin/dashboard");
+      }
+    } else {
+      toast.error(error?.message || "Login failed!");
+    }
+  };
   
   const handleGoogleLogin = () => {
     console.log("Google login clicked");

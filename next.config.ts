@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "tastyc.bslthemes.com",   // ← corrected
       },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",   // ← corrected
+      },
     ],
   },
 };

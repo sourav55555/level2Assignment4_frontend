@@ -272,51 +272,19 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-primary">
       {/* Header */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Order History</h1>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                type="text"
-                placeholder="Search orders, restaurants, or items..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
+      <div className=" bg-[url('/intro-bg.jpg')] bg-no-repeat bg-cover bg-center h-28 md:h-40  border-b sticky top-0 z-10">
+        <div className="bg-black/50 flex items-center justify-center w-full h-full  px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
+          <div className="flex items-center gap-4 justify-between ">
+                <h1 className="text-2xl sm:text-4xl font-semibold text-secondary">
+                    Order History
+                </h1>
             </div>
-
-            {/* Status Filter */}
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-48">
-                <div className="flex items-center gap-2">
-                  <Filter className="w-4 h-4" />
-                  <SelectValue placeholder="All Orders" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Orders</SelectItem>
-                <SelectItem value="on-the-way">On the Way</SelectItem>
-                <SelectItem value="delivered">Delivered</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
-                <SelectItem value="preparing">Preparing</SelectItem>
-                <SelectItem value="confirmed">Confirmed</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
       </div>
+
+
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">

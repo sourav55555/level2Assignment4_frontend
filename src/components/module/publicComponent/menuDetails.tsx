@@ -8,12 +8,15 @@ import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MenuItem } from '@/lib/types';
-import { getLocalUserData } from '@/libs/localStorage';
+import { getCartCount, getLocalUserData, setCartCount } from '@/libs/localStorage';
 import { MdDeleteOutline } from 'react-icons/md';
 import { RiEdit2Fill } from 'react-icons/ri';
 import DeleteAlertItem from './deleteAlertItem';
 import { UserRole } from '@/libs/constants';
 import { UpdateMealDrawer } from '../authComponent/updateMealDrawer';
+import { createCart } from '@/actions/meal.acton';
+import toast from 'react-hot-toast';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 // This would come from your API/database based on the meal ID
 const getMealById = (id: string) => {
@@ -92,6 +95,13 @@ const relatedMeals = [
 ];
 
 
+export interface Cart{
+  mealId: string;
+  quantity: number;
+  price: number;
+
+}
+
 
 export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
   // const meal = getMealById('1');
@@ -99,7 +109,9 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
+  const [loading, setLoading]= useState(false)
   const user = getLocalUserData();
+  const cartCount = getCartCount() || 0;
 
   if (!meal) {
     return (
@@ -132,16 +144,23 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
     }
   };
 
-  const handleAddToCart = () => {
-    const cartItem = {
-      ...meal,
+  const handleAddToCart = async () => {
+    setLoading(true)
+    const payload: Cart = {
+      mealId: meal.id,
       quantity,
-      selectedOptions,
-      totalPrice: calculateTotalPrice(),
+      price:+calculateTotalPrice(),
+  
     };
-    console.log('Adding to cart:', cartItem);
-    // Here you would add to your cart state/context
-    alert(`Added ${quantity} ${meal.name} to cart!`);
+    const orderCreate = await createCart(payload)
+
+    if (orderCreate.data.success) {
+      setCartCount(cartCount + quantity)
+      setLoading(false);
+      toast.success("Item added to cart")
+      
+    }
+
   };
 
   return (
@@ -262,10 +281,12 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
 
             <Separator className="my-1" />
             {/* update edit  */}
-            <div className='flex items-center gap-3'>
-              <UpdateMealDrawer mealData={ meal } />
-              <DeleteAlertItem id={ meal.id} />
-            </div>
+            {user && user.id === meal.provider?.id &&
+              <div className='flex items-center gap-3'>
+                <UpdateMealDrawer mealData={meal} />
+                <DeleteAlertItem id={meal.id} />
+              </div>
+            }
 
             {/* Quantity and Add to Cart */}
             {!user || user.id !== meal.provider?.id &&
@@ -276,7 +297,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
                     <button
                       onClick={() => handleQuantityChange('decrease')}
                       disabled={quantity === 1}
-                      className="w-10 h-10 rounded-full border-2
+                      className="w-10 h-10 cursor-pointer rounded-full border-2
                        border-gray-300 flex items-center justify-center
                         hover:border-orange-600 hover:text-orange-600
                          disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -286,7 +307,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
                     <span className="text-xl font-bold w-12 text-center">{quantity}</span>
                     <button
                       onClick={() => handleQuantityChange('increase')}
-                      className="w-10 h-10 rounded-full border-2 
+                      className="w-10 cursor-pointer h-10 rounded-full border-2 
                       border-gray-300 flex items-center justify-center
                        hover:border-orange-600 hover:text-orange-600 transition-colors"
                     >
@@ -297,11 +318,13 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
 
                 <Button
                   onClick={handleAddToCart}
+                  disabled={loading}
                   className="w-full bg-orange-600 hover:bg-orange-700
                    text-white h-14 text-lg font-semibold"
                 >
-                  <ShoppingCart className="w-5 h-5 mr-2" />
-                  Add to Cart - ${calculateTotalPrice()}
+                  {loading ? <AiOutlineLoading3Quarters className="w-5 h-5 mr-2" /> :
+                    <ShoppingCart className="w-5 h-5 mr-2" />}
+                  Add to Cart - <span className='text-2xl -me-1.5 -mt-1'>৳</span>{calculateTotalPrice()}
                 </Button>
               </div>}
           </div>

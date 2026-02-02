@@ -10,11 +10,17 @@ import { BsBasket3 } from 'react-icons/bs';
 import { Badge } from '@/components/ui/badge';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { useState } from 'react';
+import { getCartCount, getLocalUserData } from '@/libs/localStorage';
+import { UserRole } from '@/libs/constants';
+
+import ProfilePopover from '../authComponent/ProfilePopover';
 
 export default function TopNavbar() {
 
   const pathName = usePathname()
   const [sideNav, setSideNav] = useState<boolean>(false)
+  const user = getLocalUserData();
+  const cartCount = getCartCount();
 
   const menu = [
     {
@@ -65,24 +71,42 @@ export default function TopNavbar() {
         
         </ul>
       </div>
-      <div className='flex items-center gap-6'>
-        <div className='relative'>
-          <BsBasket3 className='text-white' size={20} />
-           <Badge className='bg-secondary px-1 py-0.5 absolute -top-2.5 -right-2 h-4'>0</Badge>
+      <div className='flex items-center gap-1'>
+        <div className='flex items-center gap-5 md:gap-6'>
+          {
+            user && user.role === UserRole.user &&
+          
+            <div className='relative'>
+                <Link href="/cart">
+                  <BsBasket3 className='text-white cursor-pointer' size={20} />
+                    <Badge className='bg-secondary px-1 py-0.5 absolute -top-2.5 -right-2 h-4'>{ cartCount}</Badge>
+                </Link>
+            </div>
+          }
+        
+          {
+            user && user.role === UserRole.user ?
+              <ProfilePopover image={ user?.image as string } /> :
+          
+                <Link href="/login" className='hidden md:inline-block cursor-pointer'>
+                  <Button
+                    className='bg-secondary rounded-3xl w-28 cursor-pointer'><IoIosLogIn className='me-0.5' />
+                    Login
+                  </Button>
+                </Link>
+          }
+        
+          
         </div>
         <Button
-          className='md:hidden inline-block text-secondary p-0'
-          onClick={()=> setSideNav(!sideNav)}
-        >
-          <RiMenu3Fill className='size-6.5' size={28} />
-        </Button>
-        <Link href="/login" className='hidden md:inline-block cursor-pointer'>
-          <Button
-            className='bg-secondary rounded-3xl w-28 cursor-pointer'><IoIosLogIn className='me-0.5' />
-            Login
+            className='md:hidden inline-block text-secondary p-0'
+            onClick={()=> setSideNav(!sideNav)}
+          >
+            <RiMenu3Fill className='size-6.5' size={28} />
           </Button>
-        </Link>
       </div>
+
+   
       {/* sidenav */}
       
       <div className={`h-screen bg-primary2 w-3/4 absolute transition-all p-8 duration-500 ease-in-out top-full ${sideNav ? 'right-0' : '-right-full'} z-50`}>
@@ -92,7 +116,8 @@ export default function TopNavbar() {
               menu.map(item => (
                 <li  key={item.label} className='h-full'>
                   <Link href={item.link}
-                    className={`text-white text-sm px-3 h-full flex items-center uppercase               ${pathName.includes(item.link) ? 
+                    onClick={()=> setSideNav(false)}
+                    className={`text-white text-sm px-3 h-full flex items-center uppercase  ${isActive(item.link) ? 
                       'text-secondary': "text-white"
                     }`}
                   >
@@ -103,12 +128,17 @@ export default function TopNavbar() {
             }
         
         </ul>
-         <Link href="/login" className='block mx-auto w-fit'>
-          <Button
-            className='bg-secondary rounded-3xl w-36 mt-10 '><IoIosLogIn className='me-0.5' />
-            Login
-          </Button>
-        </Link>
+         {
+            !user && 
+          
+              <Link href="/login" className='block mx-auto w-fit'>
+              <Button
+                className='bg-secondary rounded-3xl w-36 mt-10 '><IoIosLogIn className='me-0.5' />
+                Login
+              </Button>
+            </Link>
+          }
+      
       </div>
     </nav>
   )

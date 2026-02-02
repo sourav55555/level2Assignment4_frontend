@@ -1,7 +1,8 @@
 "use server"
 
+import { Cart } from "@/components/module/publicComponent/menuDetails";
 import { Env } from "@/env"
-import { deleteMeal } from "@/services/meal.service";
+import { createCartFunction, deleteMeal, getCartFunction } from "@/services/meal.service";
 
 
 export const getMealWithId = async (id:string) => {
@@ -15,3 +16,11 @@ export const deleteMealId = async (id: string) => {
     return res
 }
 
+export const createCart = async (payload: Cart) => {
+    const res = await createCartFunction(payload)
+    return res
+}
+export const getCart = async () => {
+    const res = await getCartFunction()
+    return res
+}

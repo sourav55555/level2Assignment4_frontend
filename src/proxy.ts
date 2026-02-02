@@ -8,9 +8,7 @@ export const proxy = async (request: NextRequest) => {
     let isProvider = false;
     const pathName = request.nextUrl.pathname
 
-    console.log(request.url)
     const { data } = await userService.getSession()
-    console.log('proxy data', data)
     if (data) {
         isAuthenticate = true;
         isAdmin = data.user.role === UserRole.admin
@@ -29,12 +27,12 @@ export const proxy = async (request: NextRequest) => {
     if (isProvider && !pathName.startsWith("/provider")) {
         return NextResponse.redirect(new URL("/provider/dashboard", request.url))
     }
-    if ((!isAdmin && !isProvider) && !pathName.startsWith("/customer")) {
-        return NextResponse.redirect(new URL("/customer/dashboard", request.url))
-    }
+    // if ((!isAdmin && !isProvider) && !pathName.startsWith("/customer")) {
+    //     return NextResponse.redirect(new URL("/customer/dashboard", request.url))
+    // }
     return NextResponse.next()
 } 
 
 export const config = {
-    matcher: ["/customer","/customer/:path*", "/admin", "/admin/:path*", "/provider", "/provider/:path*"]
+    matcher: ["/checkout","/profile", "/orders", "/admin", "/admin/:path*", "/provider", "/provider/:path*"]
 }

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import logo from '@public/homepage/logo.png'
 import { Button } from '@/components/ui/button'
 import { usePathname } from 'next/navigation'
-import { IoIosLogIn } from 'react-icons/io';
+
 import { BsBasket3 } from 'react-icons/bs';
 import { Badge } from '@/components/ui/badge';
 import { RiMenu3Fill } from 'react-icons/ri';
@@ -94,7 +94,9 @@ export default function AuthTopNavbar() {
                 </Button>
                 <div>
                     <Image src={user?.image || defaultUser}
-                        className='size-10'
+                        className='size-10 object-cover object-top rounded-full'
+                        width={40}
+                        height={40}
                         alt={user?.name || ""} />
                 </div>
             </div>
@@ -118,7 +120,9 @@ export default function AuthTopNavbar() {
                 </ul>
                 <div>
                     <Image src={user?.image || defaultUser}
-                        className='size-5'
+                        className='size-5 object-cover object-top rounded-full'
+                        width={25}
+                        height={25}
                         alt={user?.name || ""} />
                 </div>
             </div>
