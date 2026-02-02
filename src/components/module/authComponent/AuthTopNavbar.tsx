@@ -40,10 +40,32 @@ export default function AuthTopNavbar() {
         },
     ]
 
-    // Use useMemo to derive showMenu from data prop instead of useState + useEffect
-    const showMenu = useMemo(() => {
+        const adminMenu = [
+        {
+            label: "Dashboard",
+            link: "/admin/dashboard"
+        },
+        {
+            label: "Users",
+            link: "/admin/users"
+        },
+        {
+            label: "Categories",
+            link: "/admin/category"
+        },
+
+        {
+            label: "Orders",
+            link: "/admin/orders"
+        },
+    ]
+
+    
+     const showMenu = useMemo(() => {
         if (user?.role === UserRole.provider) {
             return providerMenu
+        }else if (user?.role === UserRole.admin) {
+            return adminMenu
         }
         return []
     }, [user])
