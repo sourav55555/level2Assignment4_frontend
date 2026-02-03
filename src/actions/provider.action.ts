@@ -2,7 +2,7 @@
 'use server';
 
 
-import { providerDashboard, providerMeals, providerService } from "@/services/provider.service";
+import { getProviderOrderData, providerDashboard, providerMeals, providerService } from "@/services/provider.service";
 
 export type BlogData = {
     title: string;
@@ -30,6 +30,10 @@ export const getProviderMeal = async () => {
 }
 export const getMealData = async () => {
     const response = await providerMeals();
+    return response;
+}
+export const getProviderOrder = async () => {
+    const response = await getProviderOrderData();
     return response;
 }
 

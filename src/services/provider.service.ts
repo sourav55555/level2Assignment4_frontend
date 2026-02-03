@@ -71,6 +71,23 @@ export const providerMeals = async () => {
     return {data:data, error: null}
 
 }
+export const getProviderOrderData = async () => {
+    const cookieStore = await cookies();
+    const result = await fetch(`${Env.BASE_URL}/orders`,{
+                method: "GET",
+                headers: {
+                    "content-type": "application/json",
+                    Cookie: cookieStore.toString()
+                },
+        
+            });
+    const data = await result.json();
+        if (data.error) {
+            return {data: null, error:{message: data.error || "post not created"}}
+        }
+    return {data:data, error: null}
+
+}
 export const providerDashboard = async () => {
     const cookieStore = await cookies();
     const result = await fetch(`${Env.BASE_URL}/provider/dashboard`,{

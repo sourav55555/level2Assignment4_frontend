@@ -1,7 +1,12 @@
 import React from 'react'
+import OrdersPage from './OrderPage'
+import { getProviderOrder } from '@/actions/provider.action'
 
-export default function page() {
+export default async function Order() {
+
+  const data = await getProviderOrder();
+  console.log(data.data.data, "data")
   return (
-    <div>page</div>
+    <OrdersPage data={data.data.data}/>
   )
 }
