@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+
 import {
   Dialog,
   DialogContent,
@@ -34,6 +34,7 @@ import {
   Check,
   X,
 } from "lucide-react";
+import { createCategory, updateCategory } from "@/actions/admin.action";
 
 // Types
 interface Category {
@@ -41,28 +42,10 @@ interface Category {
   name: string;
 }
 
-// Mock data
-const mockCategories: Category[] = [
-  {
-    id: "QWW",
-    name: "STARTER",
-  },
-  {
-    id: "CVGXF",
-    name: "DRINKS",
-  },
-  {
-    id: "ERTY",
-    name: "MAIN DISHES",
-  },
-  {
-    id: "UUII",
-    name: "DESSERTS",
-  },
-];
+
 
 export default function AdminCategoriesPage({data}: {data: Category[]}) {
-  const [categories, setCategories] = useState<Category[]>(mockCategories);
+  const [categories, setCategories] = useState<Category[]>(data);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -81,8 +64,13 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
   };
 
   // Handle create category
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (formData.name.trim()) {
+      const result = await createCategory({ name: formData.name.trim().toUpperCase() });
+      if (result.error) {
+        console.error("Error creating category:", result.error);
+        return;
+      }
       const newCategory: Category = {
         id: generateId(),
         name: formData.name.trim().toUpperCase(),
@@ -94,8 +82,13 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
   };
 
   // Handle edit category
-  const handleEdit = () => {
+  const handleEdit = async () => {
     if (selectedCategory && formData.name.trim()) {
+      const response = await updateCategory({ name: formData.name.trim().toUpperCase() }, selectedCategory.id);
+      if (response.error) {
+        console.error("Error updating category:", response.error);
+        return;
+      }
       setCategories(
         categories.map((cat) =>
           cat.id === selectedCategory.id
@@ -132,31 +125,31 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+    <div className="min-h-screen bg-primary2  text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-secondary mb-2">
             Category Management
           </h1>
-          <p className="text-slate-600">
+          <p className="">
             Manage food categories for your menu
           </p>
         </div>
 
         {/* Statistics Card */}
         <Card className="mb-6">
-          <CardContent className="pt-6">
+          <CardContent className="pt-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 bg-purple-100 rounded-full flex items-center justify-center">
                   <Tag className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-slate-600">
+                  <p className="text-sm font-medium ">
                     Total Categories
                   </p>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-2xl font-bold ">
                     {categories.length}
                   </p>
                 </div>
@@ -165,12 +158,12 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
               {/* Create Button */}
               <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button className="gap-2">
+                  <Button className="gap-2 bg-secondary text-black">
                     <Plus className="h-4 w-4" />
                     Add Category
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-amber-50 ">
                   <DialogHeader>
                     <DialogTitle>Create New Category</DialogTitle>
                     <DialogDescription>
@@ -178,7 +171,7 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label htmlFor="category-name">Category Name</Label>
                       <Input
                         id="category-name"
@@ -203,7 +196,7 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
                     >
                       Cancel
                     </Button>
-                    <Button onClick={handleCreate} disabled={!formData.name.trim()}>
+                    <Button onClick={handleCreate} className="bg-green-600 text-white" disabled={!formData.name.trim()}>
                       <Check className="h-4 w-4 mr-2" />
                       Create
                     </Button>
@@ -214,20 +207,7 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
           </CardContent>
         </Card>
 
-        {/* Search */}
-        <Card className="mb-6">
-          <CardContent className="pt-6">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-              <Input
-                placeholder="Search categories..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Categories Grid */}
         {filteredCategories.length === 0 ? (
@@ -254,7 +234,7 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
                       </div>
                       <div>
                         <CardTitle className="text-lg">{category.name}</CardTitle>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-slate-300 mt-1">
                           ID: {category.id}
                         </p>
                       </div>
@@ -290,7 +270,7 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
 
         {/* Edit Dialog */}
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent>
+          <DialogContent className="bg-amber-50 text-black">
             <DialogHeader>
               <DialogTitle>Edit Category</DialogTitle>
               <DialogDescription>
@@ -324,7 +304,8 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
               >
                 Cancel
               </Button>
-              <Button onClick={handleEdit} disabled={!formData.name.trim()}>
+              <Button onClick={handleEdit} className="bg-green-600 text-white"
+                disabled={!formData.name.trim()}>
                 <Check className="h-4 w-4 mr-2" />
                 Save Changes
               </Button>
@@ -338,7 +319,7 @@ export default function AdminCategoriesPage({data}: {data: Category[]}) {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This will permanently delete the category "{selectedCategory?.name}".
+                This will permanently delete the category &quot;{selectedCategory?.name}&quot;.
                 This action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>

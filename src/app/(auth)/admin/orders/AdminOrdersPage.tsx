@@ -337,26 +337,13 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
   const [expandedOrders, setExpandedOrders] = useState<Set<string>>(new Set());
   const itemsPerPage = 5;
 
-  // Filter orders
-  const filteredOrders = orders.filter((order) => {
-    const matchesSearch =
-      order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.customer.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.provider.restaurant_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.address.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesStatus = statusFilter === "all" || order.status === statusFilter;
-    const matchesPayment = paymentFilter === "all" || order.paymentStatus === paymentFilter;
-
-    return matchesSearch && matchesStatus && matchesPayment;
-  });
 
   // Pagination
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentOrders = filteredOrders.slice(startIndex, endIndex);
+  const currentOrders = orders.slice(startIndex, endIndex);
 
   // Toggle order expansion
   const toggleOrderExpansion = (orderId: string) => {
@@ -445,14 +432,14 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+    <div className="min-h-screen bg-primary2 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-secondary  mb-2">
             Order Management
           </h1>
-          <p className="text-slate-600">
+          <p className="">
             Monitor and manage all orders in the system
           </p>
         </div>
@@ -460,11 +447,11 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600">Total Orders</p>
-                  <p className="text-2xl font-bold text-slate-900">{stats.total}</p>
+                  <p className="text-sm font-medium ">Total Orders</p>
+                  <p className="text-2xl font-bold ">{stats.total}</p>
                 </div>
                 <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Package className="h-6 w-6 text-blue-600" />
@@ -474,11 +461,11 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
           </Card>
 
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600">Pending</p>
-                  <p className="text-2xl font-bold text-slate-900">{stats.pending}</p>
+                  <p className="text-sm font-medium ">Pending</p>
+                  <p className="text-2xl font-bold ">{stats.pending}</p>
                 </div>
                 <div className="h-12 w-12 bg-yellow-100 rounded-full flex items-center justify-center">
                   <Package className="h-6 w-6 text-yellow-600" />
@@ -488,11 +475,11 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
           </Card>
 
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600">Delivered</p>
-                  <p className="text-2xl font-bold text-slate-900">{stats.delivered}</p>
+                  <p className="text-sm font-medium ">Delivered</p>
+                  <p className="text-2xl font-bold ">{stats.delivered}</p>
                 </div>
                 <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
                   <Package className="h-6 w-6 text-green-600" />
@@ -502,11 +489,11 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
           </Card>
 
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600">Total Revenue</p>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-sm font-medium ">Total Revenue</p>
+                  <p className="text-2xl font-bold ">
                     {formatCurrency(stats.revenue)}
                   </p>
                 </div>
@@ -518,53 +505,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
           </Card>
         </div>
 
-        {/* Filters and Search */}
-        <Card className="mb-6">
-          <CardContent className="pt-6">
-            <div className="flex flex-col lg:flex-row gap-4">
-              {/* Search */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
-                <Input
-                  placeholder="Search by order ID, customer, restaurant, or address..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
 
-              {/* Status Filter */}
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full lg:w-[180px]">
-                  <SelectValue placeholder="Order Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="PENDING">Pending</SelectItem>
-                  <SelectItem value="CONFIRMED">Confirmed</SelectItem>
-                  <SelectItem value="PREPARING">Preparing</SelectItem>
-                  <SelectItem value="READY">Ready</SelectItem>
-                  <SelectItem value="DELIVERED">Delivered</SelectItem>
-                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Payment Filter */}
-              <Select value={paymentFilter} onValueChange={setPaymentFilter}>
-                <SelectTrigger className="w-full lg:w-[180px]">
-                  <SelectValue placeholder="Payment Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Payments</SelectItem>
-                  <SelectItem value="PAID">Paid</SelectItem>
-                  <SelectItem value="PENDING">Pending</SelectItem>
-                  <SelectItem value="FAILED">Failed</SelectItem>
-                  <SelectItem value="REFUNDED">Refunded</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Order Cards */}
         <div className="space-y-4 mb-6">
@@ -588,7 +529,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <h3 className="text-lg font-semibold text-slate-900 mb-1">
+                          <h3 className="text-lg font-semibold  mb-1">
                             {order.id}
                           </h3>
                           <div className="flex flex-wrap gap-2">
@@ -602,7 +543,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-2xl font-bold text-slate-900">
+                          <p className="text-2xl font-bold ">
                             {formatCurrency(order.totalAmount)}
                           </p>
                           <p className="text-sm text-slate-500">
@@ -630,17 +571,17 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <User className="h-4 w-4 text-slate-400" />
-                              <p className="text-sm font-medium text-slate-900">
+                              <p className="text-sm font-medium ">
                                 Customer
                               </p>
                             </div>
-                            <p className="text-sm text-slate-700 font-medium truncate">
+                            <p className="text-sm text-slate-200 font-medium truncate">
                               {order.customer.name}
                             </p>
-                            <p className="text-xs text-slate-500 truncate">
+                            <p className="text-xs text-slate-100 truncate">
                               {order.customer.email}
                             </p>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-slate-100">
                               {order.customer.phone}
                             </p>
                           </div>
@@ -662,15 +603,15 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                           </Avatar>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                              <Store className="h-4 w-4 text-slate-400" />
-                              <p className="text-sm font-medium text-slate-900">
+                              <Store className="h-4 w-4 text-slate-100" />
+                              <p className="text-sm font-medium ">
                                 Provider
                               </p>
                             </div>
-                            <p className="text-sm text-slate-700 font-medium truncate">
+                            <p className="text-sm text-slate-300 font-medium truncate">
                               {order.provider.restaurant_name || order.provider.name}
                             </p>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-xs text-slate-100">
                               {order.provider.phone}
                             </p>
                           </div>
@@ -679,11 +620,11 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
 
                       {/* Address & Date */}
                       <div className="space-y-2 text-sm">
-                        <div className="flex items-start gap-2 text-slate-600">
+                        <div className="flex items-start gap-2 ">
                           <MapPin className="h-4 w-4 text-slate-400 mt-0.5 flex-shrink-0" />
                           <span className="break-words">{order.address}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-slate-600">
+                        <div className="flex items-center gap-2 ">
                           <Calendar className="h-4 w-4 text-slate-400" />
                           <span>Ordered: {formatDate(order.createdAt)}</span>
                         </div>
@@ -691,7 +632,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-col gap-2 lg:w-48">
+                    {/* <div className="flex flex-col gap-2 lg:w-48">
                       <Select
                         value={order.status}
                         onValueChange={(value) =>
@@ -717,7 +658,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                       <Button variant="outline" size="sm">
                         Print Receipt
                       </Button>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Collapsible Order Items */}
@@ -741,7 +682,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                         )}
                       </Button>
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="mt-4">
+                    <CollapsibleContent className="mt-4 text-black">
                       <div className="border-t border-slate-200 pt-4">
                         <div className="space-y-3">
                           {order.orderItems.map((item) => (
@@ -764,7 +705,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
 
                               {/* Meal Info */}
                               <div className="flex-1 min-w-0">
-                                <p className="font-medium text-slate-900 truncate">
+                                <p className="font-medium  truncate">
                                   {item.meal.name}
                                 </p>
                                 {item.meal.category && (
@@ -772,14 +713,14 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                                     {item.meal.category}
                                   </p>
                                 )}
-                                <p className="text-sm text-slate-600 mt-1">
+                                <p className="text-sm  mt-1">
                                   Quantity: {item.quantity} × {formatCurrency(item.price)}
                                 </p>
                               </div>
 
                               {/* Item Total */}
                               <div className="text-right">
-                                <p className="font-semibold text-slate-900">
+                                <p className="font-semibold ">
                                   {formatCurrency(item.quantity * item.price)}
                                 </p>
                               </div>
@@ -790,10 +731,10 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
                         {/* Order Total */}
                         <div className="mt-4 pt-4 border-t border-slate-200">
                           <div className="flex justify-between items-center">
-                            <span className="text-lg font-semibold text-slate-900">
+                            <span className="text-lg font-semibold ">
                               Total Amount
                             </span>
-                            <span className="text-xl font-bold text-slate-900">
+                            <span className="text-xl font-bold ">
                               {formatCurrency(order.totalAmount)}
                             </span>
                           </div>
@@ -812,7 +753,7 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
           <Card>
             <CardContent className="py-4">
               <div className="flex items-center justify-between">
-                <div className="text-sm text-slate-600">
+                <div className="text-sm ">
                   Showing {startIndex + 1} to{" "}
                   {Math.min(endIndex, filteredOrders.length)} of{" "}
                   {filteredOrders.length} orders

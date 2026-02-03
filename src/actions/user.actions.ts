@@ -1,8 +1,5 @@
 "use server"
 
-
-
-
 type UserType = {
     name: string,
     email: string,
@@ -23,3 +20,4 @@ export const signUpUser = async (user: UserType) => {
     })
     return result;
 };
+

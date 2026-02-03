@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { Cart } from "@/components/module/publicComponent/menuDetails";
 import { Env } from "@/env"
-import { createCartFunction, deleteMeal, getCartFunction } from "@/services/meal.service";
+import { addToCartFunction, createCartFunction, deleteMeal, getCartFunction } from "@/services/meal.service";
 
 
 export const getMealWithId = async (id:string) => {
@@ -23,4 +24,9 @@ export const createCart = async (payload: Cart) => {
 export const getCart = async () => {
     const res = await getCartFunction()
     return res
+}
+export const addToCart = async (payload: any) => {
+     const response = await addToCartFunction(payload);
+
+    return response
 }

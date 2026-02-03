@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Clock, MapPin, Package, CheckCircle, XCircle, ChevronRight, Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -227,12 +227,16 @@ const statusConfig: Record<OrderStatus, { label: string; color: string; icon: JS
   },
 };
 
-export default function OrdersPage() {
+export default function OrdersPage({data}:{data: Order[]}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  useEffect(() => {
+    setOrders(data);
+  }, [data]);
 
-  const filteredOrders = orderHistory.filter(order => {
+  const filteredOrders = orders.filter(order => {
     const matchesSearch = 
       order.orderNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.restaurant.toLowerCase().includes(searchQuery.toLowerCase()) ||

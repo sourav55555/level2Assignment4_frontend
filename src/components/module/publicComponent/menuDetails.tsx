@@ -17,6 +17,7 @@ import { UpdateMealDrawer } from '../authComponent/updateMealDrawer';
 import { createCart } from '@/actions/meal.acton';
 import toast from 'react-hot-toast';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
 
 // This would come from your API/database based on the meal ID
 const getMealById = (id: string) => {
@@ -107,8 +108,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
   // const meal = getMealById('1');
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
+  const router = useRouter();
   const [loading, setLoading]= useState(false)
   const user = getLocalUserData();
   const cartCount = getCartCount() || 0;
@@ -158,7 +158,7 @@ export default function MealDetailsPage({ meal }: { meal: MenuItem }) {
       setCartCount(cartCount + quantity)
       setLoading(false);
       toast.success("Item added to cart")
-      
+      router.push("/menu")
     }
 
   };

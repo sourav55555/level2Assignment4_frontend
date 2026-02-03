@@ -54,3 +54,21 @@ export const createCartFunction = async (payload: Cart) => {
     return {data:data, error: null}
 
 }
+export const addToCartFunction = async (payload: Cart) => {
+    const cookieStore = await cookies();
+    const result = await fetch(`${Env.BASE_URL}/orders`,{
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    Cookie: cookieStore.toString()
+                },
+                body: JSON.stringify(payload)
+        
+            });
+    const data = await result.json();
+        if (data.error) {
+            return {data: null, error:{message: data.error || "post not created"}}
+        }
+    return {data:data, error: null}
+
+}

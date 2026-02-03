@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
-import { Env } from "@/env"
-import { getOrdersListAdmin, getUsersListAdmin, userStatusChangeAdmin } from "@/services/admin.service";
+import { createCategoryData, getDashboardDataAdmin, getOrdersListAdmin, getUsersListAdmin, updateCategoryData, userStatusChangeAdmin } from "@/services/admin.service";
 
 
 
@@ -20,5 +20,14 @@ export const getDashboardData = async () => {
 
 export const changeUserStatus = async (payload: any, userId: string) => {
     const data = await userStatusChangeAdmin(payload, userId);
+    console.log(data, "data")
     return data;
+}
+export const createCategory = async (payload: any) => {
+    const result = await createCategoryData(payload);
+    return result;
+}
+export const updateCategory = async (payload: any, categoryId:string) => {
+    const result = await updateCategoryData(payload, categoryId);
+    return result;
 }

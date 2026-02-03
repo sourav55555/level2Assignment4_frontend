@@ -4,8 +4,8 @@ import { getAdminUsers } from '@/actions/admin.action'
 
 export default async function AdminUsers() {
     const data = await getAdminUsers()
-    console.log(data)
+    console.log(data, "user data")
   return (
-    <AdminUsersPage data={data.data}/>
+    <AdminUsersPage data={data.data.data}/>
   )
 }

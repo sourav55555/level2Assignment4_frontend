@@ -79,7 +79,7 @@ export default function TopNavbar() {
             <div className='relative'>
                 <Link href="/cart">
                   <BsBasket3 className='text-white cursor-pointer' size={20} />
-                    <Badge className='bg-secondary px-1 py-0.5 absolute -top-2.5 -right-2 h-4'>{ cartCount}</Badge>
+                    <Badge className='bg-secondary px-1 py-0.5 absolute -top-2.5 -right-2 h-4'>{ cartCount || 0}</Badge>
                 </Link>
             </div>
           }

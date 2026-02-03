@@ -14,6 +14,7 @@ import { useMemo, useState } from 'react';
 import { UserRole } from '@/libs/constants';
 import { getLocalUserData } from '@/libs/localStorage';
 import defaultUser from '@public/user.png'
+import ProfilePopover from './ProfilePopover';
 
 export default function AuthTopNavbar() {
   
@@ -114,13 +115,7 @@ export default function AuthTopNavbar() {
                 >
                     <RiMenu3Fill className='size-6.5' size={28} />
                 </Button>
-                <div>
-                    <Image src={user?.image || defaultUser}
-                        className='size-10 object-cover object-top rounded-full'
-                        width={40}
-                        height={40}
-                        alt={user?.name || ""} />
-                </div>
+                <ProfilePopover image={ user?.image as string } /> 
             </div>
             {/* sidenav */}
 
