@@ -10,8 +10,8 @@ export type User = {
   createdAt: string;
   address?: string;
   description?: string | null;
-  isActive: boolean;
-  restaurant_name: string | null;
+  isActive?: boolean;
+  restaurant_name?: string | null;
 
 };
 

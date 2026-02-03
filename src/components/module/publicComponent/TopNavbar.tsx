@@ -29,10 +29,11 @@ export default function TopNavbar() {
     },{
       label: "Top Menu",
       link: "/menu"
-    },{
-      label: "Restaurants",
-      link: "/restaurants"
-    },
+    }
+    // , {
+    //   label: "Restaurants",
+    //   link: "/restaurants"
+    // },
   ]
 
   const isActive = (itemLink: string) => {
@@ -67,7 +68,22 @@ export default function TopNavbar() {
                     </Link>
                 </li>
               ))
-            }
+          }
+          {
+            user && user.role === UserRole.user &&
+          
+            <li className='h-full'>
+              <Link href={
+                "/orders"
+              }
+                className={`text-white text-sm px-3 h-full
+                       flex items-center justify-center uppercase               ${isActive("/orders") ?
+                    'border-b-amber-400 border-b-[6px]' : "border-b-[6px] border-transparent"
+                  }`}
+              >
+                Orders
+              </Link>
+            </li>}
         
         </ul>
       </div>
@@ -86,7 +102,7 @@ export default function TopNavbar() {
         
           {
             user && user.role === UserRole.user ?
-              <ProfilePopover image={ user?.image as string } /> :
+              <ProfilePopover image={user?.image as string} name={user?.name as string} /> :
           
                 <Link href="/login" className='hidden md:inline-block cursor-pointer'>
                   <Button
@@ -125,7 +141,22 @@ export default function TopNavbar() {
                     </Link>
                 </li>
               ))
-            }
+          }
+            {
+            user && user.role === UserRole.user &&
+          
+            <li className='h-full'>
+              <Link href={
+                "/orders"
+              }
+                  className={`text-white text-sm px-3 h-full flex items-center 
+                uppercase  ${isActive("/orders") ? 
+                      'text-secondary': "text-white"
+                    }`}
+              >
+                Orders
+              </Link>
+            </li>}
         
         </ul>
          {

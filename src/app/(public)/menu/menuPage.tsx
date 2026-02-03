@@ -19,8 +19,16 @@ import { FaPlus } from "react-icons/fa6";
 import Link from 'next/link';
 import { getProviderMeal } from '@/actions/provider.action';
 import { MenuItem } from '@/lib/types';
+import { buildMealQuery } from './buildMenuQuery';
+import { Env } from '@/env';
+import { getMealWithFilter } from '@/actions/meal.acton';
 
 // Sample food data
+export type FilterValues = {
+  selectedCategories: string[]
+  dietPreferences: string[] // or DietPreference[]
+  priceRange: [number, number]
+}
 
 
 export default function MenuPage({data}: {data: MenuItem[]}) {
@@ -29,11 +37,11 @@ export default function MenuPage({data}: {data: MenuItem[]}) {
 //   const [selectedCuisines, setSelectedCuisines] = useState<string[]>(['All']);
 //   const [priceRange, setPriceRange] = useState([0, 20]);
 //     const [vegetarianOnly, setVegetarianOnly] = useState(false);
-    const [filterValues, setFilterValues] = useState({
+    const [filterValues, setFilterValues] = useState<FilterValues>({
         selectedCategories : [],
-        selectedCuisines : [],
-        priceRange: [0, 20],
-        vegetarianOnly: false
+      priceRange: [0, 2000],
+        dietPreferences: [],
+
     })
   const [allData, setAllData] = useState<MenuItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -47,22 +55,31 @@ export default function MenuPage({data}: {data: MenuItem[]}) {
       setLoading(false)
     }
     meals();
-  },[])
+  }, [])
+  
+  const fetchMeals = async () => {
+    const query = buildMealQuery(filterValues)
+
+    const data = await getMealWithFilter(query)
+
+    setAllData(data.data)
+
+  return data
+}
+
+  useEffect(() => {
+    if(Object.keys(filterValues).length === 0) return;
+    const timeout = setTimeout( async () => {
+      const data = await fetchMeals()
+
+    }, 400) 
+
+    return () => clearTimeout(timeout)
+  }, [filterValues])
 
 
 
 
-//   const filteredFood = foodItems.filter(item => {
-//     // const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//     //                      item.restaurant.toLowerCase().includes(searchQuery.toLowerCase());
-//     // const matchesCategory = selectedCategories.includes('All') || selectedCategories.includes(item.category);
-//     // const matchesCuisine = selectedCuisines.includes('All') || selectedCuisines.includes(item.cuisine);
-//     // const matchesPrice = item.price >= priceRange[0] && item.price <= priceRange[1];
-//     // const matchesVegetarian = !vegetarianOnly || item.vegetarian;
-//     // const matchesRating = item.rating >= minRating;
-
-//     // return matchesSearch && matchesCategory && matchesCuisine && matchesPrice && matchesVegetarian && matchesRating;
-    //   });
 
   
   const user = getLocalUserData();

@@ -11,6 +11,12 @@ export const getMealWithId = async (id:string) => {
     const response = await data.json();
     return response;
 }
+export const getMealWithFilter = async (query:string) => {
+      const res = await fetch(`${Env.NEXT_PUBLIC_BASE_URL}/meals?${query}`)
+      const data = await res.json()
+
+    return data;
+}
 
 export const deleteMealId = async (id: string) => {
     const res = await deleteMeal(id);

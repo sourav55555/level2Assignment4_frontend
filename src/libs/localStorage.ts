@@ -27,9 +27,6 @@ export const getLocalUserData = (): User | null => {
 
     const parsed: User = JSON.parse(stored);
 
-    // Convert createdAt string back to Date
-    parsed.createdAt = new Date(parsed.createdAt);
-
     return parsed;
   } catch (error) {
     console.error("Failed to read user data:", error);

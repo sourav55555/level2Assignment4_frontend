@@ -42,11 +42,11 @@ export default function OrdersPage({data}:{data: Order[]}) {
 
 
     if (diffInDays === 0) {
-      return `Today at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+      return `Today at ৳{date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
     } else if (diffInDays === 1) {
-      return `Yesterday at ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+      return `Yesterday at ৳{date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
     } else if (diffInDays < 7) {
-      return `${diffInDays} days ago`;
+      return `৳{diffInDays} days ago`;
     } else {
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
@@ -159,7 +159,7 @@ export default function OrdersPage({data}:{data: Order[]}) {
                               </div>
                            
                             </div>
-                            <div className="font-medium text-gray-900">${item.price}</div>
+                            <div className="font-medium text-gray-900">৳{item.price}</div>
                           </div>
                         ))}
                         
@@ -172,7 +172,7 @@ export default function OrdersPage({data}:{data: Order[]}) {
                           <Separator />
                           <div className="flex justify-between font-bold text-gray-900">
                             <span>Total</span>
-                            <span>${order.totalAmount}</span>
+                            <span>৳{order.totalAmount}</span>
                           </div>
                         </div>
                       </div>
@@ -200,7 +200,7 @@ export default function OrdersPage({data}:{data: Order[]}) {
                     >
                       {expandedOrder === order.id ? 'Hide Details' : 'View Details'}
                       <ChevronRight
-                        className={`w-4 h-4 ml-2 transition-transform ${
+                        className={`w-4 h-4 ml-2 transition-transform ৳{
                           expandedOrder === order.id ? 'rotate-90' : ''
                         }`}
                       />

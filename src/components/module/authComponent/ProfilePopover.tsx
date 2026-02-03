@@ -11,15 +11,11 @@ import logout from './logout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-const ProfilePopover = ({ image }: { image?: string }) => {
+const ProfilePopover = ({ image, name }: { image?: string, name?: string }) => {
     const router = useRouter();
 
     const userItem = [
         
-        {
-            label: "orders",
-            link: "/orders"
-        },
         {
             label: "profile",
             link: "/profile"
@@ -48,6 +44,7 @@ const ProfilePopover = ({ image }: { image?: string }) => {
             </PopoverTrigger>
             <PopoverContent className="w-52 bg-amber-100">
                 <div className="text-center">
+                    <p className="font-medium text-lg mb-4 text-primary">{name}</p>
                     {
                         userItem.map(item => (
                             <Link
