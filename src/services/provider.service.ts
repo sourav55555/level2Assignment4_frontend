@@ -73,7 +73,7 @@ export const providerMeals = async () => {
 }
 export const getProviderOrderData = async () => {
     const cookieStore = await cookies();
-    const result = await fetch(`${Env.BASE_URL}/orders`,{
+    const result = await fetch(`${Env.BASE_URL}/orders/provider`,{
                 method: "GET",
                 headers: {
                     "content-type": "application/json",

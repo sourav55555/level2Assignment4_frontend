@@ -10,18 +10,20 @@ import Link from 'next/link';
 import logout from './logout';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { UserRole } from '@/libs/constants';
 
-const ProfilePopover = ({ image, name }: { image?: string, name?: string }) => {
+const ProfilePopover = ({ image, name, role }: { image?: string, name?: string, role?: string }) => {
     const router = useRouter();
+    console.log(role, "role")
 
-    const userItem = [
+    // const userItem = [
         
-        {
-            label: "profile",
-            link: "/profile"
-        },
+    //     {
+    //         label: "profile",
+    //         link: `${role === "provider" ? "/provider" : role === "admin" ? "/admin" : ""}/profile`
+    //     },
         
-    ]
+    // ]
     const signOut = async () => {
         const res = await logout();
         if (res.data?.success) {
@@ -45,18 +47,18 @@ const ProfilePopover = ({ image, name }: { image?: string, name?: string }) => {
             <PopoverContent className="w-52 bg-amber-100">
                 <div className="text-center">
                     <p className="font-medium text-lg mb-4 text-primary">{name}</p>
-                    {
-                        userItem.map(item => (
-                            <Link
-                                key={item.label}
-                                href={item.link}
-                                className='block border-b w-fit mx-auto pb-0.5 mt-3 uppercase tracking-wide text-sm font-medium hover:text-secondary transition-all duration-300'
+                
+                    <Link
+                    
+                        href={`${role === UserRole.provider ? "/provider" :
+                            role === UserRole.admin ? "/admin" : ""}/profile`}
+                        className='block border-b w-fit mx-auto pb-0.5
+                                 mt-3 uppercase tracking-wide text-sm 
+                                 font-medium hover:text-secondary transition-all duration-300'
                             >
-                                {item.label}
+                                Profile
                             </Link>
-                        ))
-                    }
-                 
+                     
 
                     <Button
                         onClick={signOut}

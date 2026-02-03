@@ -105,17 +105,17 @@ export default function AuthTopNavbar() {
                 </ul>
             </div>
             <div className='flex items-center gap-6'>
-                <div className='relative'>
+                {/* <div className='relative'>
                     <BsBasket3 className='text-white' size={20} />
                     <Badge className='bg-secondary px-1 py-0.5 absolute -top-2.5 -right-2 h-4'>0</Badge>
-                </div>
+                </div> */}
                 <Button
                     className='md:hidden inline-block text-secondary p-0'
                     onClick={() => setSideNav(!sideNav)}
                 >
                     <RiMenu3Fill className='size-6.5' size={28} />
                 </Button>
-                <ProfilePopover image={ user?.image as string } /> 
+                <ProfilePopover image={ user?.image as string } name={user?.name } role={user?.role} /> 
             </div>
             {/* sidenav */}
 

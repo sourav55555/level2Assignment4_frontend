@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, FieldProps } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { z } from "zod";
@@ -15,7 +15,7 @@ import Link from "next/link";
 import { IoLogoGoogle } from "react-icons/io";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
-import { setLocalUserData } from "@/libs/localStorage";
+import { getLocalUserData, setLocalUserData } from "@/libs/localStorage";
 import { UserRole } from "@/libs/constants";
 import { useRouter } from "next/navigation";
 
@@ -33,6 +33,20 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
 
   const router = useRouter();
+  const user = getLocalUserData();
+  useEffect(() => {
+    if (user) {
+      const userRole = user.role;
+
+      if (userRole === UserRole.user) {
+        router.push("/menu");
+      } else if (userRole === UserRole.provider) {
+        router.push("/provider/dashboard");
+      } else if (userRole === UserRole.admin) {
+        router.push("/admin/dashboard");
+      }
+    }
+  }, [user, router]);
 
   const initialValues: LoginFormValues = {
     email: "",
