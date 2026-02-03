@@ -23,7 +23,7 @@ import { AdminDashboardData } from '@/lib/types';
 
 
 export default function AdminDashboardPage({ data }: { data: AdminDashboardData }) {
-    console.log(data, "data")
+    
     useEffect(() => {
         console.log(data, "dashboard data")
     }, [data]);

@@ -15,7 +15,7 @@ export default function DeleteAlertItem({ id }: { id: string }) {
         setLoading(true)
         
         const data = await deleteMealId(id);
-        console.log(data)
+
         if (data.data.success) {
             toast.success("Item Deleted Successfully")
             router.push("/provider/menu")

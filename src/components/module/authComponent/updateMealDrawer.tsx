@@ -102,7 +102,7 @@ export function UpdateMealDrawer({
               price: +values.price
           } 
           const res = await updateMealReq(payload, mealData.id)
-          console.log(res)
+
           if (res.data.success) {
               toast.success("Item updated");
               router.refresh()

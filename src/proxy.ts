@@ -18,7 +18,7 @@ export const proxy = async (request: NextRequest) => {
     if (!isAuthenticate) {
         return NextResponse.redirect(new URL("/login", request.url))
     }
-    console.log(isAdmin, isProvider, data.user.role, pathName, "midd")
+
 
     if (isAdmin && !pathName.startsWith("/admin")) {
         return NextResponse.redirect(new URL("/admin/dashboard", request.url))

@@ -14,7 +14,7 @@ import { UserRole } from '@/libs/constants';
 
 const ProfilePopover = ({ image, name, role }: { image?: string, name?: string, role?: string }) => {
     const router = useRouter();
-    console.log(role, "role")
+
 
     // const userItem = [
         

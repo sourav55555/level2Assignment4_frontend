@@ -19,7 +19,6 @@ export const userService = {
                 return {data: null, error:{message: 'session is missing'}}
             }
             
-            console.log(session)
             return {data: session, error: null}
         } catch (err) {
             console.error(err)

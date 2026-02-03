@@ -6,7 +6,7 @@ export const revalidate = 0;
 const Menu = async () => {
     const data = await fetch(`${Env.BASE_URL}/meals`);
     const response = await data.json();
-    console.log(response);
+
     return (
         <div>
             <MenuPage data={ response.data} />

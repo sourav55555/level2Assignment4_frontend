@@ -133,7 +133,7 @@ interface DashboardData {
 }
 
 export default function RestaurantDashboard({ data }: { data: DashboardData }) {
-    console.log(data, "client data")
+
     
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
 

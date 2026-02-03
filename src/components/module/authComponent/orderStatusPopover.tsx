@@ -61,10 +61,10 @@ export default function OrderStatusPopover({
 }: Props) {
 
     const onStatusChange = async (status: OrderStatus) => {
-        // Implement status change logic here
-        console.log(`Order ${order.id} status changed to ${status}`);
+
+
         const response = await orderStatus(order.id, status);
-        console.log("Response from orderStatus action:", response);
+
         if (response.data.success) {
             toast.success("Order status updated successfully!");
         } else {

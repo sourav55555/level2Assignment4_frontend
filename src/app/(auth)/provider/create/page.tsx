@@ -54,7 +54,7 @@ export default function CreateMealForm() {
   useEffect(() => {
     const category = async () => {
       const data = await getAllCategory();
-      console.log(data)
+
       setCuisineData(data)
     }
     category()

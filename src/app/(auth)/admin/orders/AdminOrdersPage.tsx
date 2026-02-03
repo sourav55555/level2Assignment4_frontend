@@ -755,8 +755,8 @@ export default function AdminOrdersPage({data}:{data: Order[]}) {
               <div className="flex items-center justify-between">
                 <div className="text-sm ">
                   Showing {startIndex + 1} to{" "}
-                  {Math.min(endIndex, filteredOrders.length)} of{" "}
-                  {filteredOrders.length} orders
+                  {Math.min(endIndex, orders.length)} of{" "}
+                  {orders.length} orders
                 </div>
 
                 <div className="flex items-center gap-2">

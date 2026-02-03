@@ -42,7 +42,7 @@ export default function MenuPage() {
     const meals = async () => {
       // setLoading(true)
       const data = await getProviderMeal();
-      console.log(data.data)
+
       setAllData(data.data.data)
       setLoading(false)
     }

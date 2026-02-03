@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 
 export default function ProfilePage({ user }: { user?: User }) {
-    console.log(user, "suer")
+ 
     const [userData, setUserData] = React.useState<User | null>(null);
 
     React.useEffect(() => {

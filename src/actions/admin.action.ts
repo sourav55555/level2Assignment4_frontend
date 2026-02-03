@@ -20,7 +20,7 @@ export const getDashboardData = async () => {
 
 export const changeUserStatus = async (payload: any, userId: string) => {
     const data = await userStatusChangeAdmin(payload, userId);
-    console.log(data, "data")
+
     return data;
 }
 export const createCategory = async (payload: any) => {

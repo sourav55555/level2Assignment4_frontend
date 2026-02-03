@@ -27,7 +27,7 @@ export default function OrdersPage({data}:{data: Order[]}) {
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log(isOpen , "isopn")
+
   useEffect(() => {
     setOrders(data);
   }, [data]);
@@ -53,13 +53,13 @@ export default function OrdersPage({data}:{data: Order[]}) {
   };
 
   const handleReorder = (order: Order) => {
-    console.log('Reordering:', order);
+
     alert('Items added to cart! Redirecting to cart...');
     // Here you would add items to cart and redirect
   };
 
   const handleTrackOrder = (order: Order) => {
-    console.log('Tracking order:', order);
+
     // Navigate to order tracking page
   };
 

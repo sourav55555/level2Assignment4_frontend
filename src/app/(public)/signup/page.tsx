@@ -59,7 +59,7 @@ export default function SignupPage() {
   const handleSubmit = async (values: SignupFormValues) => {
 
     const { data, error } = await authClient.signUp.email(values)
-    console.log(data, "data")
+
     if (data) {
       toast.success("Registration Successful!")
       setLocalUserData({

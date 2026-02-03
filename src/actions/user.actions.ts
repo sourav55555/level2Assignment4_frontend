@@ -12,8 +12,8 @@ type UserType = {
   };
 
 export const signUpUser = async (user: UserType) => {
-  console.log("signup calll")
-    // const result = await authClient.signUp.email(user);
+
+
   const result = await fetch("http://localhost:3000/api/auth/sign-up/email", {
     method: "POST",
     headers: {

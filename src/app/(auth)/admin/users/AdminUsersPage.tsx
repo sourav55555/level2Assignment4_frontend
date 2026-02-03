@@ -71,7 +71,7 @@ export default function AdminUsersPage({ data }: { data: User[] }) {
       );
     }
     setLoading(false);
-    // console.log(updateStatus, "update status")
+
   };
 
   // Format date
