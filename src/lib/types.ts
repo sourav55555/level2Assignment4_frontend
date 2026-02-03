@@ -81,4 +81,55 @@ export interface OrderItem {
 }
 
 
+type MealStatus = 'AVAILABLE' | 'UNAVAILABLE';
+type DietPreference = 'GLUTEN_FREE' | 'VEGAN' | 'VEGETARIAN' | 'NONE';
+
+
 // Types
+interface MealSummary {
+  ingredient: string;
+  providerId: string;
+  status: MealStatus;
+  cuisineId: string;
+  dietPreference: DietPreference;
+  description: string;
+  tags: string;
+}
+export interface OrderItemType {
+  id: string;
+  orderId: string | null;
+  userId: string;
+  mealId: string;
+  quantity: number;
+  price: number;
+  createdAt: string; // ISO date string
+  meal: MealSummary;
+}
+
+export type OrderStatus =
+  | 'PENDING'
+  | 'CONFIRMED'
+  | 'PREPARING'
+  | 'OUT_FOR_DELIVERY'
+  | 'DELIVERED'
+  | 'CANCELLED';
+export type PaymentStatus = 'PENDING' | 'PAID' | 'FAILED';
+
+
+export type Order = {
+  id: string;
+  customerId: string;
+  providerId: string;
+  status: OrderStatus;
+  totalAmount: number;
+  address: string;
+  paymentStatus: PaymentStatus;
+  createdAt: string;
+  updatedAt: string;
+  orderItems: OrderItem[];
+  provider: {
+    id: string;
+    name: string;
+    image: string | null;
+  };
+};
